@@ -77,4 +77,8 @@ public class DartPickerFragment extends Fragment {
         return value;
     }
 
+    public void reset() {
+        picker.setValue(0);
+    }
+
 }

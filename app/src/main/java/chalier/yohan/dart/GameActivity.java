@@ -81,6 +81,10 @@ public class GameActivity extends AppCompatActivity {
         playerLabel.setText("Player " + (currentPlayer + 1));
         scoreLabel.setText(Integer.toString(scores[currentPlayer]));
 
+        picker1.reset();
+        picker2.reset();
+        picker3.reset();
+
         String scoreboardText = "";
         for (int i = 0; i < playerCount; i++) {
             scoreboardText += "Player " + (i + 1) + ": " + scores[i] + "\n";
