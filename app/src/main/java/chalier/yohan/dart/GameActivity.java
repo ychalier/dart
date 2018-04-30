@@ -1,11 +1,8 @@
 package chalier.yohan.dart;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -75,6 +72,11 @@ public class GameActivity extends AppCompatActivity {
             int score = evaluate();
             if (scores[currentPlayer] - score >= 0) {
                 scores[currentPlayer] -= score;
+            }
+            if (scores[currentPlayer] == 0) {
+                Intent intent = new Intent(this, ResultsActivity.class);
+                intent.putExtra("scores", scores);
+                startActivity(intent);
             }
         }
         currentPlayer = (currentPlayer + 1) % playerCount;
