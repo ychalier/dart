@@ -23,8 +23,17 @@ public class HomeActivity extends AppCompatActivity {
                 EditText editPlayerCount = findViewById(R.id.editText);
                 EditText editStartScore = findViewById(R.id.editText2);
 
-                intent.putExtra("playerCount", Integer.valueOf(editPlayerCount.getText().toString()));
-                intent.putExtra("startScore", Integer.valueOf(editStartScore.getText().toString()));
+                String playerCount = editPlayerCount.getText().toString();
+                String startScore = editStartScore.getText().toString();
+
+                if (!playerCount.isEmpty()) {
+                    intent.putExtra("playerCount", Integer.valueOf(playerCount));
+                }
+
+                if (!startScore.isEmpty()) {
+                    intent.putExtra("startScore", Integer.valueOf(startScore));
+                }
+
                 startActivity(intent);
             }
         });
