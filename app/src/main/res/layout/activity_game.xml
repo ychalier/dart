@@ -64,4 +64,12 @@
         android:layout_height="wrap_content"
         android:text="Next" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scoreboard"
+        android:textAlignment="textStart"
+        android:textSize="24sp" />
+
 </LinearLayout>

@@ -21,6 +21,7 @@ public class GameActivity extends AppCompatActivity {
 
     private TextView playerLabel;
     private TextView scoreLabel;
+    private TextView scoreboard;
 
     private int[] scores;
     private int currentPlayer;
@@ -50,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
 
         playerLabel = findViewById(R.id.textView2);
         scoreLabel = findViewById(R.id.textView3);
+        scoreboard = findViewById(R.id.textView4);
 
         final GameActivity self = this;
         Button button = findViewById(R.id.button2);
@@ -78,6 +80,12 @@ public class GameActivity extends AppCompatActivity {
         currentPlayer = (currentPlayer + 1) % playerCount;
         playerLabel.setText("Player " + (currentPlayer + 1));
         scoreLabel.setText(Integer.toString(scores[currentPlayer]));
+
+        String scoreboardText = "";
+        for (int i = 0; i < playerCount; i++) {
+            scoreboardText += "Player " + (i + 1) + ": " + scores[i] + "\n";
+        }
+        scoreboard.setText(scoreboardText);
     }
 
 }
