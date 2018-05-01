@@ -79,6 +79,8 @@ public class DartPickerFragment extends Fragment {
 
     public void reset() {
         picker.setValue(0);
+        toggleDouble.setChecked(false);
+        toggleTriple.setChecked(false);
     }
 
 }
