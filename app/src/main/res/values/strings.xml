@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Dart</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="player">Player</string>
+    <string name="rank">rank</string>
+    <string name="score">score</string>
+    <string name="next">Next</string>
+    <string name="scoreboard">Scoreboard</string>
+
 </resources>
