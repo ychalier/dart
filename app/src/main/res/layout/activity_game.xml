@@ -87,7 +87,8 @@
 
     <LinearLayout
         android:baselineAligned="false"
-        android:layout_width="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="8dp"
@@ -124,11 +125,11 @@
 
     <Button
         android:id="@+id/buttonNextPlayer"
-        android:layout_gravity="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryLight"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="264dp"
+        android:layout_height="60dp"
+        android:textColor="@color/colorIcons"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/next" />
 
     <View
@@ -141,7 +142,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimaryText"
+        android:textSize="18sp"
+        android:layout_gravity="center"
         android:text="@string/scoreboard" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_marginVertical="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
