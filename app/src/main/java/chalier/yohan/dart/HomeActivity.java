@@ -14,14 +14,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Button button = findViewById(R.id.button);
+        Button button = findViewById(R.id.buttonStart);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), GameActivity.class);
 
-                EditText editPlayerCount = findViewById(R.id.editText);
-                EditText editStartScore = findViewById(R.id.editText2);
+                EditText editPlayerCount = findViewById(R.id.editTextPlayerCount);
+                EditText editStartScore = findViewById(R.id.editTextStartScore);
 
                 String playerCount = editPlayerCount.getText().toString();
                 String startScore = editStartScore.getText().toString();

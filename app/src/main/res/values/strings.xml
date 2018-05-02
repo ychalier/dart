@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Dart</string>
 
+    <string name="start">Start</string>
+    <string name="startScore">Start score</string>
+    <string name="playerCount">Player count</string>
+
     <string name="player">Player</string>
     <string name="rank">rank</string>
     <string name="score">score</string>
