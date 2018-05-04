@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,10 +17,6 @@ public class GameActivity extends AppCompatActivity {
     private DartPickerFragment picker2;
     private DartPickerFragment picker3;
 
-    private TextView playerLabel;
-    private TextView scoreLabel;
-    private TextView rankLabel;
-
     private int playerCount;
     private int playerUnfinished;
     private int turn;
@@ -29,6 +24,10 @@ public class GameActivity extends AppCompatActivity {
     private int[] results;
     private int currentPlayer;
     private String[] playerNames;
+
+    private StackBuffer<PlayerTurnScore> history;
+
+    private final static int HISTORY_SIZE = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +53,9 @@ public class GameActivity extends AppCompatActivity {
         turn = 0;
         currentPlayer = -1;
 
+        history = new StackBuffer<>();
+        history.setMaxSize(HISTORY_SIZE);
+
         picker1 = (DartPickerFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.fragmentDartPicker1);
         picker2 = (DartPickerFragment) getSupportFragmentManager()
@@ -61,18 +63,23 @@ public class GameActivity extends AppCompatActivity {
         picker3 = (DartPickerFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.fragmentDartPicker3);
 
-        playerLabel = findViewById(R.id.textViewPlayerName);
-        scoreLabel = findViewById(R.id.textViewPlayerScore);
-        rankLabel = findViewById(R.id.textViewPlayerRank);
-        // scoreboardNames = findViewById(R.id.textViewScoreboardNames);
-        // scoreboardScores = findViewById(R.id.textViewScoreboardScores);
-
         final GameActivity self = this;
-        Button button = findViewById(R.id.buttonNextPlayer);
-        button.setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.buttonNextPlayer).setOnClickListener(
+                new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 self.update();
+            }
+        });
+
+        findViewById(R.id.buttonUndo).setOnClickListener(
+                new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!history.isEmpty()) {
+                    undo(history.pop());
+                }
             }
         });
 
@@ -80,30 +87,55 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private int evaluate() {
+    private int evaluateCurrentPlayerScore() {
         return picker1.evaluate() + picker2.evaluate() + picker3.evaluate();
     }
 
-    private void update() {
+    private PlayerTurnScore evaluateCurrentPlayerTurnScore() {
+        int score = evaluateCurrentPlayerScore();
+        boolean overScored = scores[currentPlayer] < score;
+        boolean finished = scores[currentPlayer] - score == 0;
+        return new PlayerTurnScore(score, overScored, finished);
+    }
 
-        // Computing score of current player
+    private void updateCurrentPlayerScore() {
+        // currentPlayer is -1 at start, so we need to skip this bit to init,
+        // and we only compute for players that have no terminated yet.
         if (currentPlayer >= 0 && scores[currentPlayer] > 0) {
-            int score = evaluate();
-            if (scores[currentPlayer] - score >= 0) {
-                scores[currentPlayer] -= score;
+            PlayerTurnScore score = evaluateCurrentPlayerTurnScore();
+            history.push(score);
+            if (!score.overScored) {
+                scores[currentPlayer] -= score.score;
             }
-            if (scores[currentPlayer] == 0) {
+            if (score.finished) {
                 playerUnfinished--;
                 results[currentPlayer] = turn;
-
-                // Disable NEXT button when everything is over
-                // It prevents the user from starting an infinite loop
-                if (playerUnfinished == 0) {
-                    findViewById(R.id.buttonNextPlayer).setEnabled(false);
-                }
             }
         }
+    }
 
+    private void undo(PlayerTurnScore score) {
+         if (!score.overScored) {
+             scores[score.player] += score.score;
+         }
+         if (score.finished) {
+             results[score.player] = -1;
+             playerUnfinished++;
+         }
+         while (playerUnfinished > 0) {
+             currentPlayer--;
+             if (currentPlayer < 0) {
+                 currentPlayer = playerCount - 1;
+                 turn--;
+             }
+             if (scores[currentPlayer] > 0) {
+                 break;
+             }
+         }
+         updateView();
+    }
+
+    private void goToNextPlayer() {
         // Find next player who has not finished yet
         // The condition is always true or never entered
         while (playerUnfinished > 0) {
@@ -115,22 +147,9 @@ public class GameActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
 
-        picker1.reset();
-        picker2.reset();
-        picker3.reset();
-
-        playerLabel.setText(String.format(
-                getResources().getString(R.string.player_turn),
-                playerNames[currentPlayer]));
-        scoreLabel.setText(String.format(
-                getResources().getString(R.string.score_label),
-                scores[currentPlayer]));
-
-        setTitle(String.format(
-                getResources().getString(R.string.turn_label),
-                turn));
-
+    private ArrayList<Integer> computeRanking() {
         ArrayList<Integer> ranks = new ArrayList<>();
         for (int i = 0; i < playerCount; i++) {
             ranks.add(i);
@@ -152,6 +171,31 @@ public class GameActivity extends AppCompatActivity {
 
             }
         });
+        return ranks;
+    }
+
+    private void updateView() {
+
+        ArrayList<Integer> ranks = computeRanking();
+
+        TextView playerLabel = findViewById(R.id.textViewPlayerName);
+        TextView scoreLabel = findViewById(R.id.textViewPlayerScore);
+        TextView rankLabel = findViewById(R.id.textViewPlayerRank);
+
+        picker1.reset();
+        picker2.reset();
+        picker3.reset();
+
+        playerLabel.setText(String.format(
+                getResources().getString(R.string.player_turn),
+                playerNames[currentPlayer]));
+        scoreLabel.setText(String.format(
+                getResources().getString(R.string.score_label),
+                scores[currentPlayer]));
+
+        setTitle(String.format(
+                getResources().getString(R.string.turn_label),
+                turn));
 
         LinearLayout scoreboardLayout = findViewById(R.id.layoutScoreboard);
         scoreboardLayout.removeAllViews();
@@ -183,6 +227,15 @@ public class GameActivity extends AppCompatActivity {
         rankLabel.setText(String.format(
                 getResources().getString(R.string.rank),
                 rankSuffixed(ranks.indexOf(currentPlayer) + 1)));
+
+    }
+
+    private void update() {
+
+        updateCurrentPlayerScore();
+        goToNextPlayer();
+
+        updateView();
     }
 
     private String rankSuffixed(int rank) {
@@ -199,4 +252,48 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    public class StackBuffer<E> extends ArrayList<E> {
+
+        private int maxSize;
+
+        void setMaxSize(int maxSize) {
+            this.maxSize = maxSize;
+        }
+
+        void push(E element) {
+            super.add(element);
+            if (size() > maxSize) {
+                remove(0);
+            }
+        }
+
+        public E pop() {
+            if (size() > 0) {
+                return remove(size() - 1);
+            }
+            return null;
+        }
+
+        public boolean isEmpty() {
+            return size() == 0;
+        }
+
+    }
+
+    private class PlayerTurnScore {
+        private int player;
+        private int score;
+        private boolean overScored;
+        private boolean finished;
+
+        PlayerTurnScore
+                (int score, boolean overScored, boolean finished) {
+            this.player = currentPlayer;
+            this.score = score;
+            this.overScored = overScored;
+            this.finished = finished;
+        }
+
+    }
 }
+
