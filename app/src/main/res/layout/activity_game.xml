@@ -132,6 +132,8 @@
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/next" />
 
+    <!--
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -178,5 +180,7 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    -->
 
 </LinearLayout>

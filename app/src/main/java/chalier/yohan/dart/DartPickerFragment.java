@@ -35,8 +35,8 @@ public class DartPickerFragment extends Fragment {
         picker.setMinValue(0);
         picker.setMaxValue(VALUES.length-1);
 
-        toggleDouble = rootView.findViewById(R.id.toggleButton1);
-        toggleTriple = rootView.findViewById(R.id.toggleButton2);
+        toggleDouble = rootView.findViewById(R.id.toggleButtonDouble);
+        toggleTriple = rootView.findViewById(R.id.toggleButtonTriple);
 
         toggleDouble.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {

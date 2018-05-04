@@ -61,8 +61,8 @@ public class GameActivity extends AppCompatActivity {
         playerLabel = findViewById(R.id.textViewPlayerName);
         scoreLabel = findViewById(R.id.textViewPlayerScore);
         rankLabel = findViewById(R.id.textViewPlayerRank);
-        scoreboardNames = findViewById(R.id.textViewScoreboardNames);
-        scoreboardScores = findViewById(R.id.textViewScoreboardScores);
+        // scoreboardNames = findViewById(R.id.textViewScoreboardNames);
+        // scoreboardScores = findViewById(R.id.textViewScoreboardScores);
 
         final GameActivity self = this;
         Button button = findViewById(R.id.buttonNextPlayer);
@@ -168,8 +168,8 @@ public class GameActivity extends AppCompatActivity {
             }
 
         }
-        scoreboardNames.setText(scoreboardNamesText.toString());
-        scoreboardScores.setText(scoreboardScoresText.toString());
+        // scoreboardNames.setText(scoreboardNamesText.toString());
+        // scoreboardScores.setText(scoreboardScoresText.toString());
 
         rankLabel.setText(String.format("%d", ranks.indexOf(currentPlayer) + 1));
     }
