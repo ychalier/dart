@@ -9,10 +9,16 @@
     <string name="rank">rank</string>
     <string name="score">score</string>
     <string name="next">Next</string>
-    <string name="scoreboard">SCOREBOARD</string>
+    <string name="undo">Undo</string>
+    <string name="scoreboard">Scoreboard</string>
 
     <string name="players">Players</string>
     <string name="reset">Reset</string>
     <string name="add_player">Add player</string>
+
+    <string name="player_turn">Player\'s turn: %s</string>
+    <string name="score_label">%03d</string>
+    <string name="turn_label">Turn %d</string>
+    <string name="done_label">Done in %d turns</string>
 
 </resources>

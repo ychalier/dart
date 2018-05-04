@@ -63,7 +63,8 @@ public class HomeActivity
                 EditText editStartScore = findViewById(R.id.editTextStartScore);
                 int startScore = 501;
                 if (!editStartScore.getText().toString().isEmpty()) {
-                    startScore = Integer.parseInt((editStartScore.toString()));
+                    startScore = Integer.parseInt(
+                            editStartScore.getText().toString());
                 }
                 int playerCount = playerNames.size();
                 String[] names = new String[playerCount];

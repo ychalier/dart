@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,8 +19,6 @@ public class GameActivity extends AppCompatActivity {
 
     private TextView playerLabel;
     private TextView scoreLabel;
-    private TextView scoreboardNames;
-    private TextView scoreboardScores;
     private TextView rankLabel;
 
     private int playerCount;
@@ -117,10 +116,10 @@ public class GameActivity extends AppCompatActivity {
         picker2.reset();
         picker3.reset();
 
-        playerLabel.setText(playerNames[currentPlayer]);
-        scoreLabel.setText(String.format("%03d", scores[currentPlayer]));
+        playerLabel.setText(String.format(getResources().getString(R.string.player_turn), playerNames[currentPlayer]));
+        scoreLabel.setText(String.format(getResources().getString(R.string.score_label), scores[currentPlayer]));
 
-        setTitle(String.format("Turn %d", turn));
+        setTitle(String.format(getResources().getString(R.string.turn_label), turn));
 
         ArrayList<Integer> ranks = new ArrayList<>();
         for (int i = 0; i < playerCount; i++) {
@@ -136,42 +135,48 @@ public class GameActivity extends AppCompatActivity {
                 } else if (results[integer] == -1 && results[t1] > -1) {
                     return 1;
                 } else if (results[integer] == -1 && results[t1] == -1) {
-                    if (scores[integer] > scores[t1]) {
-                        return 1;
-                    } else if (scores[integer] < scores[t1]) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
+                    return Integer.compare(scores[integer], scores[t1]);
                 } else {
-                    if (results[integer] > results[t1]) {
-                        return 1;
-                    } else if (results[integer] < results[t1]) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
+                    return Integer.compare(results[integer], results[t1]);
                 }
 
             }
         });
 
-        StringBuilder scoreboardNamesText = new StringBuilder();
-        StringBuilder scoreboardScoresText = new StringBuilder();
+        LinearLayout scoreboardLayout = findViewById(R.id.layoutScoreboard);
+        scoreboardLayout.removeAllViews();
         for (int index : ranks) {
-            scoreboardNamesText.append("Player " + (index + 1) + "\n");
+            int playerRank = ranks.indexOf(index) + 1;
 
+            View v = getLayoutInflater().inflate(R.layout.scoreboard_row, null);
+            TextView player = v.findViewById(R.id.textViewScoreboardPlayerName);
+            TextView score = v.findViewById(R.id.textViewScoreboardPlayerScore);
+
+            player.setText(String.format("%s. %s", rankSuffixed(playerRank), playerNames[index]));
             if (results[index] == -1) {
-                scoreboardScoresText.append(String.format("%03d\n", scores[index]));
+                score.setText(String.format(getResources().getString(R.string.score_label), scores[index]));
             } else {
-                scoreboardScoresText.append(String.format("Done in %d turns\n", results[index]));
+                score.setText(String.format(getResources().getString(R.string.done_label), results[index]));
             }
 
+            scoreboardLayout.addView(v);
         }
-        // scoreboardNames.setText(scoreboardNamesText.toString());
-        // scoreboardScores.setText(scoreboardScoresText.toString());
 
-        rankLabel.setText(String.format("%d", ranks.indexOf(currentPlayer) + 1));
+        rankLabel.setText(String.format("Rank: %s", rankSuffixed(ranks.indexOf(currentPlayer) + 1)));
+    }
+
+    private String rankSuffixed(int rank) {
+        String strRank = Integer.toString(rank);
+        char lastChar = strRank.charAt(strRank.length() - 1);
+        if (lastChar == '1' && rank != 11) {
+            return strRank + "st";
+        } else if (lastChar == '2' && rank != 12) {
+            return strRank + "nd";
+        } else if (lastChar == '3' && rank != 13) {
+            return strRank + "rd";
+        } else {
+            return strRank + "th";
+        }
     }
 
 }
