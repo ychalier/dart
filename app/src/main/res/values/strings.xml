@@ -6,7 +6,7 @@
     <string name="playerCount">Player count</string>
 
     <string name="player">Player</string>
-    <string name="rank">rank</string>
+    <string name="rank">Rank: %s</string>
     <string name="score">score</string>
     <string name="next">Next</string>
     <string name="undo">Undo</string>
@@ -20,5 +20,10 @@
     <string name="score_label">%03d</string>
     <string name="turn_label">Turn %d</string>
     <string name="done_label">Done in %d turns</string>
+
+    <string name="x2">x2</string>
+    <string name="x3">x3</string>
+
+    <string name="scoreboard_header">%s. %s</string>
 
 </resources>

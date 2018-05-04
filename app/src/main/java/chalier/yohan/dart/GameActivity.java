@@ -1,5 +1,6 @@
 package chalier.yohan.dart;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,10 +36,13 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
-        playerCount = intent.getIntExtra(HomeActivity.EXTRA_PLAYER_COUNT, 2);
-        int startScore = intent.getIntExtra(HomeActivity.EXTRA_START_SCORE, 301);
+        playerCount = intent.getIntExtra(
+                HomeActivity.EXTRA_PLAYER_COUNT, 2);
+        int startScore = intent.getIntExtra(
+                HomeActivity.EXTRA_START_SCORE, 301);
         playerUnfinished = playerCount;
-        playerNames = intent.getStringArrayExtra(HomeActivity.EXTRA_PLAYER_NAMES);
+        playerNames = intent.getStringArrayExtra(
+                HomeActivity.EXTRA_PLAYER_NAMES);
 
         scores = new int[playerCount];
         results = new int[playerCount];
@@ -116,10 +120,16 @@ public class GameActivity extends AppCompatActivity {
         picker2.reset();
         picker3.reset();
 
-        playerLabel.setText(String.format(getResources().getString(R.string.player_turn), playerNames[currentPlayer]));
-        scoreLabel.setText(String.format(getResources().getString(R.string.score_label), scores[currentPlayer]));
+        playerLabel.setText(String.format(
+                getResources().getString(R.string.player_turn),
+                playerNames[currentPlayer]));
+        scoreLabel.setText(String.format(
+                getResources().getString(R.string.score_label),
+                scores[currentPlayer]));
 
-        setTitle(String.format(getResources().getString(R.string.turn_label), turn));
+        setTitle(String.format(
+                getResources().getString(R.string.turn_label),
+                turn));
 
         ArrayList<Integer> ranks = new ArrayList<>();
         for (int i = 0; i < playerCount; i++) {
@@ -148,21 +158,31 @@ public class GameActivity extends AppCompatActivity {
         for (int index : ranks) {
             int playerRank = ranks.indexOf(index) + 1;
 
-            View v = getLayoutInflater().inflate(R.layout.scoreboard_row, null);
+            @SuppressLint("InflateParams") View v = getLayoutInflater().inflate(
+                    R.layout.scoreboard_row,
+                    null);
             TextView player = v.findViewById(R.id.textViewScoreboardPlayerName);
             TextView score = v.findViewById(R.id.textViewScoreboardPlayerScore);
 
-            player.setText(String.format("%s. %s", rankSuffixed(playerRank), playerNames[index]));
+            player.setText(String.format(
+                    getResources().getString(R.string.scoreboard_header),
+                    rankSuffixed(playerRank), playerNames[index]));
             if (results[index] == -1) {
-                score.setText(String.format(getResources().getString(R.string.score_label), scores[index]));
+                score.setText(String.format(
+                        getResources().getString(R.string.score_label),
+                        scores[index]));
             } else {
-                score.setText(String.format(getResources().getString(R.string.done_label), results[index]));
+                score.setText(String.format(
+                        getResources().getString(R.string.done_label),
+                        results[index]));
             }
 
             scoreboardLayout.addView(v);
         }
 
-        rankLabel.setText(String.format("Rank: %s", rankSuffixed(ranks.indexOf(currentPlayer) + 1)));
+        rankLabel.setText(String.format(
+                getResources().getString(R.string.rank),
+                rankSuffixed(ranks.indexOf(currentPlayer) + 1)));
     }
 
     private String rankSuffixed(int rank) {
