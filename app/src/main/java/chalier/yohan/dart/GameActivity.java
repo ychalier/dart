@@ -36,17 +36,16 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
-        playerCount = intent.getIntExtra("playerCount", 2);
-        int startScore = intent.getIntExtra("startScore", 301);
+        playerCount = intent.getIntExtra(HomeActivity.EXTRA_PLAYER_COUNT, 2);
+        int startScore = intent.getIntExtra(HomeActivity.EXTRA_START_SCORE, 301);
         playerUnfinished = playerCount;
+        playerNames = intent.getStringArrayExtra(HomeActivity.EXTRA_PLAYER_NAMES);
 
         scores = new int[playerCount];
         results = new int[playerCount];
-        playerNames = new String[playerCount];
         for (int i = 0; i < scores.length; i++) {
             scores[i] = startScore;
             results[i] = -1;
-            playerNames[i] = Integer.toString(i + 1);
         }
 
         turn = 0;

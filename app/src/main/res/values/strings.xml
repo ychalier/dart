@@ -11,4 +11,8 @@
     <string name="next">Next</string>
     <string name="scoreboard">SCOREBOARD</string>
 
+    <string name="players">Players</string>
+    <string name="reset">Reset</string>
+    <string name="add_player">Add player</string>
+
 </resources>

@@ -1,49 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:orientation="vertical"
-    android:layout_gravity="center_vertical"
     tools:context=".HomeActivity">
 
-    <EditText
-        android:id="@+id/editTextPlayerCount"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:ems="10"
-        android:hint="@string/playerCount"
-        android:inputType="number" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextStartScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:ems="10"
-        android:hint="@string/startScore"
-        android:inputType="number" />
+        <EditText
+            android:id="@+id/editTextStartScore"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="0dp"
+            android:background="@null"
+            android:hint="@string/startScore"
+            android:inputType="number" />
 
-    <Button
-        android:id="@+id/buttonStart"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@color/colorIcons"
-        android:textSize="21sp"
-        android:padding="15dp"
-        android:text="@string/start" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.12"
+            android:background="#000" />
 
-    <FrameLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="40dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/ic_darts_target">
-    </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/players"
+            android:textColor="@color/colorPrimaryText"
+            android:padding="16dp"
+            android:textSize="14sp" />
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/layoutPlayerNames"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp">
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonAddPlayer"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/add_player" />
+
+            <Button
+                android:id="@+id/buttonResetPlayers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/reset" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.12"
+            android:background="#000" />
+
+        <Button
+            android:id="@+id/buttonStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="#FFF"
+            android:text="@string/start"/>
+
+    </LinearLayout>
+
+
+</ScrollView>
