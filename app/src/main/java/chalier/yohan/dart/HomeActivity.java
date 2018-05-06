@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -56,35 +59,35 @@ public class HomeActivity
 
         self.appendFragment();
 
+        /*
         findViewById(R.id.buttonStart).setOnClickListener(
                 new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText editStartScore = findViewById(R.id.editTextStartScore);
-                int startScore = 501;
-                if (!editStartScore.getText().toString().isEmpty()) {
-                    startScore = Integer.parseInt(
-                            editStartScore.getText().toString());
-                }
-                int playerCount = playerNames.size();
-                String[] names = new String[playerCount];
-                for (int i = 0; i < playerCount; i++) {
-                    names[i] = playerNames.get(i).getName();
-                }
-
-                Log.d("Home", "Player count: " + playerCount);
-                Log.d("Home", "Start score: " + startScore);
-
-                Intent intent =
-                        new Intent(view.getContext(), GameActivity.class);
-                intent.putExtra(EXTRA_PLAYER_COUNT, playerCount);
-                intent.putExtra(EXTRA_PLAYER_NAMES, names);
-                intent.putExtra(EXTRA_START_SCORE, startScore);
-                startActivity(intent);
-
+                start();
             }
         });
+        */
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.start, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_start:
+                start();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     public void appendFragment() {
@@ -108,5 +111,28 @@ public class HomeActivity
         fragmentTransaction.remove(fragment);
         playerNames.remove(fragment);
         fragmentTransaction.commit();
+    }
+
+    public void start() {
+        EditText editStartScore = findViewById(R.id.editTextStartScore);
+        int startScore = 501;
+        if (!editStartScore.getText().toString().isEmpty()) {
+            startScore = Integer.parseInt(
+                    editStartScore.getText().toString());
+        }
+        int playerCount = playerNames.size();
+        String[] names = new String[playerCount];
+        for (int i = 0; i < playerCount; i++) {
+            names[i] = playerNames.get(i).getName();
+        }
+
+        Log.d("Home", "Player count: " + playerCount);
+        Log.d("Home", "Start score: " + startScore);
+
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(EXTRA_PLAYER_COUNT, playerCount);
+        intent.putExtra(EXTRA_PLAYER_NAMES, names);
+        intent.putExtra(EXTRA_START_SCORE, startScore);
+        startActivity(intent);
     }
 }
